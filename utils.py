@@ -1,5 +1,6 @@
 from math import tanh
 import numpy as np
+from numba import jit
 t_step =0.05
 
 
@@ -31,6 +32,7 @@ def psi(phi, c1 =0.5, w=5, phistar=0.4, c2=0.5):
     return c1*tanh(w*(phi-phistar))+c2
 
 # function to calculate update rule dphi/dt
+@jit(nopython=True)
 def dphi_FOFD(phi, grad_p, dt=t_step):
     dx = 1/phi.shape[0]; dy = 1/phi.shape[1]
     # compute stencils
