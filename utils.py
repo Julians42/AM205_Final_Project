@@ -9,6 +9,7 @@ res=200
 dim = int(np.ceil(res*(1+2*eps)))
 
 
+
 # ramp up 2D - push water in and suck it out
 def fluid_forcing_x(pshape, t, scale, len_force=100, start=500):
     """Takes shape of initial phi matrix and time stamp
