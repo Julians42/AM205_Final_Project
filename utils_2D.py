@@ -45,13 +45,26 @@ dim = int(np.ceil(res*(1+2*eps)))
 def q_x(rho, phi, dx = 1/dim):
     """Calculates flux on the horizonal edges"""
     q_xupdate = np.zeros((phi.shape[0]+1, phi.shape[1]))
-    for row in range(1, phi.shape[0]):
-        for column in range(phi.shape[1]):
+    for row in range(1, phi.shape[0]): # leave top and bottom fluxes 0
+        for column in range(phi.shape[1]): 
             T1 = (rho[row-1,column]+rho[row,column])/2
             T2 = Kappa((phi[row-1,column]+phi[row-1,column])/2)
             T3 = (rho[row-1, column]+rho[row,column])/dx
             q_xupdate[row, column] = T1 * T2 * T3
     return q_xupdate
+
+def q_x(rho, phi, dx = 1/dim):
+    """Calculates flux on the horizonal edges"""
+    q_xupdate = np.zeros((phi.shape[0]+1, phi.shape[1]))
+    q_xflux = np.zeros((phi.shape[0]+1, phi.shape[1]))
+    q_xflux[5:15, 0] = np.ones(10)/2
+    for row in range(1, phi.shape[0]): # leave top and bottom fluxes 0
+        for column in range(phi.shape[1]): 
+            T1 = (rho[row-1,column]+rho[row,column])/2
+            T2 = Kappa((phi[row-1,column]+phi[row-1,column])/2)
+            T3 = (rho[row-1, column]+rho[row,column])/dx
+            q_xupdate[row, column] = T1 * T2 * T3
+    return q_xupdate + q_xflux
 
 def q_y(rho, phi, dy =1/dim):
     """Calculates flux on the vertical edges"""
@@ -62,9 +75,10 @@ def q_y(rho, phi, dy =1/dim):
             # compute based on phi and rho of neighboring points
             T1 = (rho[row, column]+rho[row, column-1])/2
             T2 = Kappa((phi[row, column]+phi[row, column-1])/2)
-            T3 = (rho[row, column]-rho[row, column-1])/dy
+            T3 = (pressure(rho[row, column])-pressure(rho[row, column-1]))/dy
             q_yupdate[row, column] = T1 * T2 * T3
     return q_yupdate
+
 
 ##############################
 ##############################
@@ -73,7 +87,7 @@ def update_rho(qx, qy, rho, dx =1/dim, dy=1/dim, dt =0.5, c=0.1**2):
     tflux = np.zeros(rho.shape)
     for row in range(tflux.shape[0]):
         for column in range(tflux.shape[1]):
-            tflux[row, column] = (qx[row, column]-qx[row+1, column])/dx + (qy[row, column+1]-qy[row, column])/dy
+            tflux[row, column] = -((qx[row, column]-qx[row+1, column])/dx + (qy[row, column+1]-qy[row, column])/dy)
             #tflux[row, column] = rho[row, column] - qx[]
 
     # update with euler step
