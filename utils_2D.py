@@ -125,3 +125,18 @@ def update_phi(phi, rho, dt=0.05):
     # we can't have a negative solid fraction - we set this to zero
     phi_next = np.maximum(phi_next, np.zeros(phi_next.shape))
     return phi_next
+
+##############################
+##############################
+
+# colormap
+import matplotlib.colors as colors
+from matplotlib import cm
+
+def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
+    new_cmap = colors.LinearSegmentedColormap.from_list(
+        'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+        cmap(np.linspace(minval, maxval, n)))
+    return new_cmap
+cmap = cm.get_cmap("twilight_shifted")
+media_cmap = truncate_colormap(cmap, 0.1, 0.7)
