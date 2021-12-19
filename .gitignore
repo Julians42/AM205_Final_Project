@@ -8,6 +8,8 @@ __pycache__
 OLD_utils.py
 scratch.py
 /utils.py
+2D_model/utils.py
+2D_model/wed_runs.py
 
 # Folders
 data
