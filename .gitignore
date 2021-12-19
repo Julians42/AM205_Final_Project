@@ -1,0 +1,11 @@
+
+# Ignore jupyter and apple DS Store
+.DS_Store
+__pycache__
+
+
+# Files
+OLD_utils.py
+
+# Folders
+data
