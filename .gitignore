@@ -6,6 +6,8 @@ __pycache__
 
 # Files
 OLD_utils.py
+scratch.py
+/utils.py
 
 # Folders
 data

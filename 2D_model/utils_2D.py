@@ -75,7 +75,7 @@ def q_y(rho, phi, dy =1/dim):
             # compute based on phi and rho of neighboring points
             T1 = (rho[row, column]+rho[row, column-1])/2
             T2 = Kappa((phi[row, column]+phi[row, column-1])/2)
-            T3 = (pressure(rho[row, column])-pressure(rho[row, column-1]))/dy
+            T3 = (rho[row, column]-rho[row, column-1])/dy
             q_yupdate[row, column] = T1 * T2 * T3
     return q_yupdate
 
